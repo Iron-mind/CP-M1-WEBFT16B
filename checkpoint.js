@@ -21,27 +21,54 @@ const {
 // Implementar la función isAncestor: debe determinar si dado dos nombres de personas las mismas
 // son parientes o no (La primera debe ser ancestro de la segunda). La función recibira un objeto
 // que va a representar sólo la parte femenina del "arbol genealogico" familiar y será de la siguiente forma:
-// const genealogyTree = {
-//   "Mona Simpson": [],
-//   "Marge Simpson": ["Lisa Simpson", "Maggie Simpson"],
-//   "Jacqueline Bouvier": [ "Patty Bouvier", "Marge Simpson", "Selma Bouvier"],
-//   "Patty Bouvier": [],
-//   "Selma Bouvier": ["Ling Bouvier"],
-//   "Edwina": ["Abigail Simpson"],
-//   "Lisa Simpson": [],
-//   "Maggie Simpson": [],
-//   "Ling Bouvier": []
-// }
+const genealogyTree1 = {
+  "Mona Simpson": [],
+  "Marge Simpson": ["Lisa Simpson", "Maggie Simpson"],
+  "Jacqueline Bouvier": [ "Patty Bouvier", "Marge Simpson", "Selma Bouvier"],
+  "Patty Bouvier": [],
+  "Selma Bouvier": ["Ling Bouvier"],
+  "Edwina": ["Abigail Simpson"],
+  "Lisa Simpson": [],
+  "Maggie Simpson": [],
+  "Ling Bouvier": []
+}
 // Ejemplo:
 //  - Caso que devuelve true --> isAncestor(genealogyTree, "Jacqueline Bouvier", "Maggie Simpson")
 //  - Caso que devuelve false --> isAncestor(genealogyTree, "Jacqueline Bouvier", "Abigail Simpson")
 //  [Observar los tests para otros casos]
+function ancestors(genealogyTree, person) {
+  var ancestorList=[]
+  var aux;
 
-var isAncestor = function(genealogyTree, ancestor, descendant){
-  // Tu código aca:
+  for (var variable in genealogyTree) {
+    for (var i = 0; i < genealogyTree[variable].length; i++) {
+      if (genealogyTree[variable][i]==person) {
+        aux=variable
+        ancestorList.push(variable)
+      }
+    }
+  }
+  if(ancestorList.length==0) return ancestorList
+  else return ancestorList.concat(ancestors(genealogyTree,aux))
 
 }
 
+console.log(ancestors(genealogyTree1,"Lisa Simpson"),22);
+
+
+var isAncestor = function(genealogyTree, ancestor, descendant){
+  // Tu código aca:
+  var arrayAncestors= ancestors(genealogyTree1,descendant)
+  for (var i = 0; i < arrayAncestors.length; i++) {
+    if (arrayAncestors[i]==ancestor) {
+      return true
+
+    }
+  }
+   return false
+
+}
+console.log(isAncestor(genealogyTree1, "Jacqueline Bouvier", "Abigail Simpson"));
 
 // EJERCICIO 2
 // Secuencia inventada: f(n) = f(n-1) x f(n-2) - f(n-2)
