@@ -261,11 +261,43 @@ var mergeLinkedLists = function(linkedListOne, linkedListTwo){
 // finalizar el juego.
 
 
-var cardGame = function(playerOneCards, playerTwoCards){
+var cardGame = function(playerOneCards, playerTwoCards,points1=100,points2=100){
   // Tu código aca:
+  var castle1=points1
+  var castle2=points2
+  var winner;
+
+  if (castle2==0||castle1==0||playerOneCards.size()==0||playerTwoCards.size()==0) {
+    if(points1>points2){
+      winner='PLAYER ONE'
+    }
+    if(points1<points2){
+      winner='PLAYER TWO'
+    }
+    if(points1==points2){
+      winner='TIE'
+    }
+    return winner
+
+
+  }else {
+    var card1=playerOneCards.dequeue()
+    var card2= playerTwoCards.dequeue()
+
+    if(card1.attack > card2.defense){
+      castle2= castle2 - card1.attack + card2.defense
+
+    }
+    if(card2.attack > card1.defense){
+      castle1= castle1 - card2.attack + card1.defense
+    }
+
+    return cardGame(playerOneCards, playerTwoCards,castle1,castle2)
+  }
+
 
 }
-
+console.log();
 // ---------------
 
 
