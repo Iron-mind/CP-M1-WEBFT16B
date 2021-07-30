@@ -51,7 +51,7 @@ var isAncestor = function(genealogyTree, ancestor, descendant){
 // object es un objeto del cual debemos obtener f(0) y f(1) siguiendo la siguiente lógica:
 // f(0) será el valor de la propiedad llamada 'first'
 // f(1) será un número igual a la cantidad de propiedades de obj
-// Por ejemplo si recibimos: 
+// Por ejemplo si recibimos:
 // var obj = {
 //   1: true,
 //   first: 2,
@@ -77,8 +77,22 @@ var isAncestor = function(genealogyTree, ancestor, descendant){
 
 function secuenciaHenry(obj, n) {
   // Tu código aca:
+  if (n<0) {
+    return null
+
+  }
+  if(n==0){
+    return 2
+  }
+  else if (n==1) {
+    return 9
+  }
+  else {
+    return secuenciaHenry(obj,n-1)*secuenciaHenry(obj,n-2)- secuenciaHenry(obj,n-2)
+  }
 
 }
+console.log(secuenciaHenry([],5));
 
 // ---------------------
 
@@ -88,16 +102,23 @@ function secuenciaHenry(obj, n) {
 // Implementar el método size dentro del prototype de LinkedList que deberá retornar el tamaño actual de
 // la LinkedList. En el caso de que la lista se encuentre vacía deberá retornar cero.
 // Ejemplo:
-//    var lista = new LinkedList();
-//    lista.size(); --> 0
-//    lista.add(1);
-//    lista.size(); --> 1
-//    lista.add(2);
-//    lista.add(3);
-//    lista.size(); --> 3
+
 
 LinkedList.prototype.size = function(){
   // Tu código aca:
+  var current= this.head
+  var tot= 0
+  if(!this.head){
+    return 0
+  }
+  else {
+    while (current) {
+      tot++
+      current=current.next
+    }
+    return tot
+
+  }
 
 }
 
@@ -105,7 +126,7 @@ LinkedList.prototype.size = function(){
 // EJERCICIO 4
 // Implementar el método switchPos dentro del prototype de LinkedList que deberá intercambiar
 // el elemento que se encuentre en pos1 con el elemento en pos2
-// En el caso de que alguna de las dos posiciones no sea válida (Supere el tamaño de la lista actual 
+// En el caso de que alguna de las dos posiciones no sea válida (Supere el tamaño de la lista actual
 // o sea un número negativo) debe devolver false.
 // Si los nodos fueron removidos correctamente devolver true.
 // Aclaración: la posición cero corresponde al head de la LinkedList
@@ -117,13 +138,62 @@ LinkedList.prototype.size = function(){
 // Ejemplo 2:
 //    Suponiendo que se pide una posición inválida: removeFromPos(8) --> false
 
+LinkedList.prototype.replace= function (newValue, index) {
+
+  if (this.size()==0) {
+    return false
+  }
+  var aux;
+  var current=this.head
+  while (current) {
+    if (index==0) {
+      aux=current.value
+      current.value=newValue
+      break
+    }
+    index--
+    current=current.next
+  }
+  return aux
+}
+   var lista = new LinkedList();
+   lista.size();
+   lista.add(1);
+   lista.size();
+   lista.add(2);
+   lista.add(3);
+   lista.size();
+
+
+
 LinkedList.prototype.switchPos = function(pos1, pos2){
   // Tu código aca:
+  if(pos1>this.size()|| pos2>this.size()||pos1<0|| pos2<0){
+    return false
+  }
+  var current=this.head
+  var elemPos1;
+  var elemPos2;
+  var i=pos1;
+
+  while (current) {
+    if (i==0) {
+      elemPos1=current.value
+    }
+    i--
+    current=current.next
+  }
+
+  elemPos2=this.replace(elemPos1,pos2)
+  this.replace(elemPos2,pos1)
+
+  return true
 
 }
 
+
 // EJERCICIO 5
-// Implementar la función mergeLinkedLists que, a partir de dos listas simplemente enlazadas 
+// Implementar la función mergeLinkedLists que, a partir de dos listas simplemente enlazadas
 // del mismo tamaño retorne una nueva lista con los elementos de ambas listas
 // Ejemplo:
 //    Lista 1: Head --> 1 --> 7 --> 20 --> null
@@ -135,9 +205,19 @@ LinkedList.prototype.switchPos = function(pos1, pos2){
 // Continuando con el nodo 2 de la lista 2, conectandose con el nodo 2 de la lista 2.
 var mergeLinkedLists = function(linkedListOne, linkedListTwo){
   // Tu código aca:
+  var merged= new LinkedList()
+  var currentOne= linkedListOne.head
+  var currentTwo= linkedListTwo.head
+  while (currentOne) {
 
+    merged.add(currentOne.value)
+    merged.add(currentTwo.value)
+    currentOne=currentOne.next
+    currentTwo=currentTwo.next
+
+  }
+  return merged
 }
-
 
 // ----------------------
 
@@ -168,14 +248,14 @@ var mergeLinkedLists = function(linkedListOne, linkedListTwo){
 // La primera carta del jugador uno va a atacar a la segunda carta del jugador dos
 // La primer carta del jugador dos va a atacar a la segunda carta del jugador uno
 //
-// Primer carta del jugador 1 (ATAQUE) vs Segunda carta del jugador 2 (DEFENSA): 
+// Primer carta del jugador 1 (ATAQUE) vs Segunda carta del jugador 2 (DEFENSA):
 // {attack: 5, defense: 5} vs {attack: 5, defense: 26}
 // Ataque 5 vs Defensa 20 --> 5 no supera 20 --> No hay daño sobre el castillo
 //
-// Primer carta del jugador 2 (ATAQUE) vs Segunda carta del jugador 1 (DEFENSA): 
+// Primer carta del jugador 2 (ATAQUE) vs Segunda carta del jugador 1 (DEFENSA):
 // {attack: 20, defense: 26} vs {attack: 15, defense: 10}
 // Ataque 20 vs Defensa 10 --> 20 supera a 10 --> Como hay 10 puntos de diferencia esa cantidad de daño es aplicada
-// al castillo del jugador 1 
+// al castillo del jugador 1
 //
 // Una vez terminada la ronda, se procede a repetir lo mismo con las siguientes 2 cartas de cada jugaodr hasta
 // finalizar el juego.
@@ -206,12 +286,28 @@ var cardGame = function(playerOneCards, playerTwoCards){
 // PISTA: Una forma de resolverlo es pensarlo recursivamente y usando Math.max
 
 BinarySearchTree.prototype.height = function(){
+
   // Tu código aca:
 
+  if(!this.left && !this.right){
+    return 1
+  }
+  if (this.left && !this.right) {
+    return 1 + this.left.height()
+
+  }
+  if (!this.left && this.right) {
+    return 1 + this.right.height()
+
+  }
+  if (this.left && this.right) {
+    if(this.left.height()>this.right.height()){
+      return 1 +this.left.height()
+    }else {
+      return 1 +this.right.height()
+    }
+  }
 }
-
-
-// ---------------
 
 
 // Ejercicio 8
@@ -290,9 +386,27 @@ var specialSort = function(array, orderFunction) {
 
 function closureDetect(symptoms, min) {
   // Tu código aca:
+  return function (person) {
+    var tot=0
+      for (var i = 0; i < person.symptoms.length; i++) {
+
+        for (var j = 0; j < symptoms.length; j++) {
+          if (symptoms[j]==person.symptoms[i]) {
+            tot++
+          }
+        }
+      }
+      return tot>=min
+
+  }
 
 }
-
+var personTwo = {
+    name: 'Toni',
+    age: 30,
+    symptoms: ['congestion', 'tiredness']
+  }
+  console.log(personTwo.symptoms);
 // -------------------
 
 module.exports = {

@@ -1,3 +1,7 @@
+### Evidencia: 6 test pasados
+<p align="center">
+  <img width=290 src="evide.jpg" />
+</p>
 # M1 - Checkpoint
 
 <p align="left">
@@ -27,4 +31,4 @@ Una vez terminado el checkpoint, subir los cambios a tu repositorio con los coma
 
 ### Condiciones de aprobación
 
-Para aprobar el checkpoint es necesario contar con un mínimo de 6 ejercicios correctos sobre los 10 totales. Para que un ejercicio sea considerado como correcto debe pasar todos los tests asociados a ese ejercicio. Para verificar este número podes hacer `npm run test` y mirar la cantidad de `test suites` pasadas. 
+Para aprobar el checkpoint es necesario contar con un mínimo de 6 ejercicios correctos sobre los 10 totales. Para que un ejercicio sea considerado como correcto debe pasar todos los tests asociados a ese ejercicio. Para verificar este número podes hacer `npm run test` y mirar la cantidad de `test suites` pasadas.
