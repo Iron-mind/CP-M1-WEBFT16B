@@ -382,8 +382,20 @@ BinarySearchTree.prototype.height = function(){
 //    [Donde 2 sería el número sobre el cuál queremos saber su posición en el array]
 
 
-var binarySearch = function (array, target) {
+var binarySearch = function (array, target, l=0 , r=array.length-1) {
   // Tu código aca:
+ if(l>r)  return -1
+ const m = Math.floor((l+r)/2)
+ if (array[m]==target) {
+   return m
+ }
+ if (array[m]<target) {
+   return binarySearch(array,target, m+1,r)
+
+ }else {
+   return binarySearch(array,target, l ,m-1)
+
+ }
 
 }
 
@@ -412,6 +424,19 @@ var binarySearch = function (array, target) {
 
 var specialSort = function(array, orderFunction) {
   // Tu código aca:
+  var swap = true;
+  while(swap) { //false
+    swap = false;
+    for (let i = 0; i < array.length -1; i++) {
+      if(orderFunction(array[i] , array[i + 1])==-1) {
+        var aux = array[i] //5
+        array[i] = array[i + 1]
+        array[i+1] = aux;
+        swap = true;
+      }
+    }
+  }
+  return array;
 
 }
 
